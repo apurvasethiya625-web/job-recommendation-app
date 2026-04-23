@@ -1,0 +1,177 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f3f2ef;
+}
+
+/* NAVBAR */
+.navbar {
+    background: #0a66c2;
+    color: white;
+    padding: 15px 30px;
+}
+
+/* LAYOUT */
+.main {
+    display: flex;
+    margin: 20px;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 25%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.sidebar textarea {
+    width: 100%;
+    height: 80px;
+    margin-top: 10px;
+    padding: 8px;
+}
+
+.sidebar input {
+    margin-top: 10px;
+}
+
+.sidebar button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background: #0a66c2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background: #004182;
+}
+
+/* CONTENT */
+.content {
+    width: 75%;
+}
+
+/* JOB CARD */
+.job-card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* HEADER */
+.job-header {
+    display: flex;
+    align-items: center;
+}
+
+/* LOGO */
+.logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+/* APPLY BUTTON */
+.apply-btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #0a66c2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.apply-btn:hover {
+    background: #004182;
+}
+
+/* FILTER BUTTONS */
+.filters button {
+    margin: 5px 5px 0 0;
+    padding: 6px 12px;
+    background: #e4e6eb;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.filters button:hover {
+    background: #0a66c2;
+    color: white;
+}
+.job-card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.job-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+} /* LOADER BACKGROUND */
+#loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.7);
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* SPINNER */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #0a66c2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+.job-card p {
+    font-size: 14px;
+    color: #555;
+}
+.match {
+    background: #d4edda;
+    color: #155724;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin: 2px;
+    display: inline-block;
+}
+
+.missing {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin: 2px;
+    display: inline-block;
+}

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Find Jobs</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f3f2ef;
+}
+
+/* NAVBAR */
+.navbar {
+    background: #0a66c2;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+/* INPUT */
+input {
+    padding: 10px;
+    margin: 5px;
+    width: 200px;
+}
+
+/* BUTTON */
+button {
+    padding: 10px 15px;
+    background: #0a66c2;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* JOB LIST */
+.jobs {
+    width: 70%;
+    margin: auto;
+}
+
+/* JOB CARD */
+.job-card {
+    background: white;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LEFT SIDE */
+.job-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* LOGO */
+.job-left img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+/* MATCH */
+.match {
+    color: green;
+    font-weight: bold;
+}
+
+/* MISSING */
+.missing {
+    color: red;
+}
+
+/* APPLY BUTTON */
+.apply-btn {
+    padding: 8px 15px;
+    background: #0a66c2;
+    color: white;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+/* CHAT BUTTON */
+#chatBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #0a66c2;
+    color: white;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CHAT BOX */
+#chatBox {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    height: 380px;
+    background: white;
+    display: none;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+#chatHeader {
+    background: #0a66c2;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+#chatMessages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+#chatInput {
+    padding: 10px;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">Job Recommendation System</div>
+
+<div class="hero">
+
+<form action="/recommend" method="POST" enctype="multipart/form-data">
+
+<input type="text" name="search" placeholder="Search jobs">
+
+<input type="text" name="resume" placeholder="Enter skills">
+
+<input type="file" name="pdf">
+
+<button>Search</button>
+
+</form>
+
+</div>
+
+<div class="jobs">
+
+{% for item in jobs %}
+<div class="job-card">
+
+    <!-- LEFT SIDE -->
+    <div class="job-left">
+
+        <!-- LOGO -->
+        <img src="{{ item.job.logo }}">
+
+        <div>
+            <h3>{{ item.job.job_title }}</h3>
+
+            <p class="match">Match: {{ item.percent }}%</p>
+
+            <!-- MATCHED SKILLS -->
+            <p>
+            {% for skill in item.matched %}
+                <span class="match">{{ skill }}</span>
+            {% endfor %}
+            </p>
+
+            <!-- MISSING SKILLS -->
+            <p>
+            {% for skill in item.missing %}
+                <span class="missing">{{ skill }}</span>
+            {% endfor %}
+            </p>
+        </div>
+
+    </div>
+
+    <!-- APPLY BUTTON -->
+    <div>
+        <a class="apply-btn" href="{{ item.job.link }}" target="_blank">
+            Apply
+        </a>
+    </div>
+
+</div>
+{% endfor %}
+
+</div>
+
+<!-- CHAT BUTTON -->
+<div id="chatBtn">💬</div>
+
+<!-- CHAT BOX -->
+<div id="chatBox">
+
+<div id="chatHeader">AI Job Assistant</div>
+
+<div id="chatMessages"></div>
+
+<input id="chatInput" placeholder="Ask: python job, ai job...">
+
+</div>
+
+<script>
+
+let btn = document.getElementById("chatBtn");
+let box = document.getElementById("chatBox");
+let msgBox = document.getElementById("chatMessages");
+let input = document.getElementById("chatInput");
+
+// OPEN CHAT
+btn.onclick = () => {
+    box.style.display = box.style.display === "flex" ? "none" : "flex";
+};
+
+// SEND MESSAGE
+input.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+
+        let msg = input.value;
+        input.value = "";
+
+        msgBox.innerHTML += "<div><b>You:</b> " + msg + "</div>";
+
+        fetch("/chat", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({message: msg})
+        })
+        .then(res => res.json())
+        .then(data => {
+            msgBox.innerHTML += "<div><b>AI:</b> " + data.reply + "</div>";
+            msgBox.scrollTop = msgBox.scrollHeight;
+        });
+
+    }
+});
+
+</script>
+
+</body>
+</html>
